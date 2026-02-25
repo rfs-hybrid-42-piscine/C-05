@@ -6,7 +6,7 @@
 /*   By: maaugust <maaugust@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 02:44:54 by maaugust          #+#    #+#             */
-/*   Updated: 2026/02/25 03:20:20 by maaugust         ###   ########.fr       */
+/*   Updated: 2026/02/25 04:05:50 by maaugust         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,39 +14,39 @@
 #include <unistd.h>
 
 /**
- * @fn static bool is_safe(int row, int col, int *queens)
+ * @fn static bool is_safe(int row, int col, int *board)
  * @brief Checks if a queen can be safely placed at the given row and col.
  * @details Iterates through the previously placed queens to ensure the new 
  * queen does not share the same column or fall on the same diagonals.
  * @param row The current row being evaluated.
  * @param col The column being evaluated for safety.
- * @param queens The array storing the column positions of previous queens.
+ * @param board The array storing the column positions of previous queens.
  * @return true if the position is safe from attack, false otherwise.
  */
-static bool	is_safe(int row, int col, int *queens)
+static bool	is_safe(int row, int col, int *board)
 {
 	int	i;
 
 	i = -1;
 	while (++i < row)
-		if (queens[i] == col
-			|| queens[i] - i == col - row
-			|| queens[i] + i == col + row)
+		if (board[i] == col
+			|| board[i] - i == col - row
+			|| board[i] + i == col + row)
 			return (false);
 	return (true);
 }
 
 /**
- * @fn static void solve(int *n, int row, int *queens)
+ * @fn static void solve(int *n, int row, int *board)
  * @brief Recursive backtracking solver for the N-Queens problem.
  * @details Explores all possible safe placements of queens row by row. If a 
  * valid placement of 10 queens is found, it prints the board configuration 
  * and increments the master solution counter.
  * @param n A pointer to the total solution counter.
  * @param row The current row index being processed.
- * @param queens The array representing the board state.
+ * @param board The array representing the board state.
  */
-static void	solve(int *n, int row, int *queens)
+static void	solve(int *n, int row, int *board)
 {
 	char	c;
 	int		col;
@@ -57,7 +57,7 @@ static void	solve(int *n, int row, int *queens)
 		row = -1;
 		while (++row < 10)
 		{
-			c = queens[row] + '0';
+			c = board[row] + '0';
 			write(1, &c, 1);
 		}
 		write(1, "\n", 1);
@@ -66,10 +66,10 @@ static void	solve(int *n, int row, int *queens)
 	col = -1;
 	while (++col < 10)
 	{
-		if (is_safe(row, col, queens))
+		if (is_safe(row, col, board))
 		{
-			queens[row] = col;
-			solve(n, row + 1, queens);
+			board[row] = col;
+			solve(n, row + 1, board);
 		}
 	}
 }
@@ -83,10 +83,10 @@ static void	solve(int *n, int row, int *queens)
  */
 int	ft_ten_queens_puzzle(void)
 {
-	int	queens[10];
+	int	board[10];
 	int	total;
 
 	total = 0;
-	solve(&total, 0, queens);
+	solve(&total, 0, board);
 	return (total);
 }
