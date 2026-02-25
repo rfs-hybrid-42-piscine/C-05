@@ -38,9 +38,9 @@ In this module, you will recreate basic mathematical operations (factorials, pow
 | Exercise | Concept & Logic |
 | :--- | :--- |
 | **[`ex04: ft_fibonacci`](ex04)** | **Fibonacci Sequence:** Finding the $n$-th element of the sequence using pure recursion. <br><br>**Logic:** In the Fibonacci sequence, every number is the sum of the two preceding ones ($0, 1, 1, 2, 3, 5...$). The function requires two recursive calls added together: `return (ft_fibonacci(index - 1) + ft_fibonacci(index - 2))`. The base cases are when index is 0 (returns 0) or 1 (returns 1). |
-| **[`ex05: ft_sqrt`](ex05)** | **Integer Square Root:** Finding the exact square root of a number. <br><br>**Logic:** We iterate a variable `i` starting from 1. We multiply `i * i` until it equals `nb` (returning `i`) or exceeds `nb` (meaning the square root is irrational, returning 0). *Crucial Trap:* Multiplying `i * i` can easily overflow the 32-bit integer limit if `nb` is very large, so `i` must be safely cast or bounded (e.g., $46340^2$). |
-| **[`ex06: ft_is_prime`](ex06)** | **Prime Numbers:** Determining if a number is prime. <br><br>**Logic:** A prime number is only divisible by 1 and itself. We loop a divisor variable from 2 upwards. If `nb % divisor == 0` at any point, the number is not prime. *Optimization:* We only need to check divisors up to the square root of `nb` (`divisor * divisor <= nb`) to prove it is prime. |
-| **[`ex07: ft_find_next_prime`](ex07)** | **Next Prime:** Locating the closest prime number greater than or equal to `nb`. <br><br>**Logic:** We simply use the prime-checking logic from `ex06` inside a loop. If `nb` is not prime, we increment it (`nb++`) and check again until we find a prime. |
+| **[`ex05: ft_sqrt`](ex05)** | **Integer Square Root:** Finding the exact square root of a number. <br><br>**Logic:** We iterate a variable `root` starting from 1. *The Overflow Optimization:* Multiplying `root * root` can easily overflow the 32-bit integer limit if `nb` is very large. To safely prevent this without casting, we use division in our loop condition: `while (root <= nb / root)`. If `root * root == nb`, we return it; otherwise, the root is irrational, returning 0. |
+| **[`ex06: ft_is_prime`](ex06)** | **Prime Numbers:** Determining if a number is prime. <br><br>**Logic:** A prime number is only divisible by 1 and itself. We loop a divisor variable from 2 upwards. If `nb % divisor == 0` at any point, the number is not prime. *Optimization:* We only need to check divisors up to the square root of `nb` to prove it is prime. By using the division trick `divisor <= nb / divisor`, we execute in $O(\sqrt{N})$ time without overflowing `INT_MAX`. |
+| **[`ex07: ft_find_next_prime`](ex07)** | **Next Prime:** Locating the closest prime number greater than or equal to `nb`. <br><br>**Logic:** We simply use the highly optimized prime-checking logic from `ex06` inside an infinite loop. If `nb` is not prime, we increment it (`nb++`) and check again until we find a prime. |
 
 ### 👑 The Final Boss
 | Exercise | Concept & Logic |
@@ -92,6 +92,19 @@ Moulinette relies on a program called `norminette` to check if your files comply
 
 **The 42 Header:**
 Before writing any code, every file must start with the standard 42 header. `norminette` will automatically fail any file missing this specific signature.
+```c
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_iterative_factorial.c                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: maaugust <maaugust@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/04 14:32:24 by maaugust          #+#    #+#             */
+/*   Updated: 2025/03/05 13:03:32 by maaugust         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+```
 
 Run the following command before pushing:
 ```bash
